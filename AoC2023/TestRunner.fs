@@ -57,11 +57,11 @@ module TestRunner =
     let input1 = getInput 1
 
     let examples1_1 =
-        [| |]
+        [| "1abc2\npqr3stu8vwx\na1b2c3d4e5f\ntreb7uchet" |]
 
-    let exampleResults1_1 = [| |]
+    let exampleResults1_1 = [| "142" |]
 
     let examples1_2 =
-        [| |]
+        [| "two1nine\neightwothree\nabcone2threexyz\nxtwone3four\n4nineeightseven2\nzoneight234\n7pqrstsixteen" |]
 
-    let exampleResults1_2 = [| |]
+    let exampleResults1_2 = [| "281" |]
