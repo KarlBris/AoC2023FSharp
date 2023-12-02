@@ -19,6 +19,12 @@ module Utils =
     let commas (input: string) : string [] =
         input.Split([| ", "; "," |], StringSplitOptions.RemoveEmptyEntries)
 
+    let semicolons (input: string) : string [] =
+        input.Split([| "; "; ";" |], StringSplitOptions.RemoveEmptyEntries)
+
+    let colons (input: string) : string [] =
+        input.Split([| ": "; ":" |], StringSplitOptions.RemoveEmptyEntries)
+
     let hyphens (input: string) : string [] =
         input.Split([| "- "; "-" |], StringSplitOptions.RemoveEmptyEntries)
 
