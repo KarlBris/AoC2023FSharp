@@ -77,3 +77,14 @@ module TestRunner =
     let examples2_2 = examples2_1
 
     let exampleResults2_2 = [| "2286" |]
+
+    // Day3
+    let input3 = getInput 3
+
+    let examples3_1 = [| "467..114..\n...*......\n..35..633.\n......#...\n617*......\n.....+.58.\n..592.....\n......755.\n...$.*....\n.664.598.." |]
+
+    let exampleResults3_1 = [| "4361" |]
+
+    let examples3_2 =  examples3_1
+
+    let exampleResults3_2 = [| "467835" |]
