@@ -2,6 +2,7 @@
 
 open System.IO
 open System.Diagnostics
+open System
 
 module TestRunner =
 
@@ -21,6 +22,9 @@ module TestRunner =
 
     let printStatus ((res, expectedRes, success): string * string * bool) =
         printfn "%s! Got %s, expected %s." (if success then "Success" else "Failure") res expectedRes
+
+    let formatTime (span: TimeSpan) : string =
+        $"{span.Hours} Hours, {span.Minutes} Minutes, {span.Seconds} Seconds, {span.Milliseconds}.{span.Microseconds} Milliseconds"
 
     let run (examples: string []) expectedResults realInput (func: string -> string) title =
         printfn title
@@ -47,6 +51,7 @@ module TestRunner =
             timer.Start()
             printfn "Result from real input: %s" (func realInput)
             timer.Stop()
+            printfn $"Time elapsed: {(formatTime timer.Elapsed)}"
             printfn "Time elapsed: %A" timer.Elapsed
         else
             printfn "Some examples were not successful. PLEASE DO BETTER"
