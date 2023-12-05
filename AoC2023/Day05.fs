@@ -32,7 +32,7 @@ module Day05 =
         then
             [|range|]
         else
-            let sEnd = sStart + sLength
+            let sEnd = sStart + sLength-1L
             if 
                 sStart >= source && sEnd <= (source + length)
             then// case total overlap, map everything
@@ -47,23 +47,22 @@ module Day05 =
                 let insideLength = (length) - (sStart - source)
                 let diff = sStart - source
                 [|(true,(dest + diff, insideLength));(false,(source+length+1L,sLength-insideLength))|]
+            elif sStart < source && sEnd > (source + length)  // range juts out on both sides!
+            then
+                [|(false,(sStart, (source-sStart-1L)));(true,(dest, length));(false,(source+length, sLength-((source+length-1L)-sStart)-1L))|]
             else // no overlap, map nothing
                 [|range|]
         
 
     let mapValueRange (currentMap: (int64*int64*int64) array) (numRange: (int64* int64)) : (int64 * int64) array =
-        let hej = 
-            currentMap
+        currentMap
             |> Array.fold (fun numberRanges map -> 
                 numberRanges
                 |> Array.map (mapPryl map)
                 |> Array.concat
 
                 ) [|(false, numRange)|]
-        
-        
-        hej |> Array.map snd
-        
+        |> Array.map snd
 
     let mapValue (currentMap: (int64*int64*int64) array) (num: int64) : int64 =
         currentMap
@@ -76,8 +75,7 @@ module Day05 =
                 (true,mappedNum)
             else (mapped,number)) (false, num)
         |> snd
-        
-
+   
     let part1 (input: string) : string =
         let (seeds, maps) = input |> parseInput1
 
@@ -87,23 +85,15 @@ module Day05 =
         |> string
 
     let part2 (input: string) : string =
-        
         let (seeds, maps) = input |> parseInput2
 
-        let hej = 
-            maps
-            |> Array.fold (fun valueRanges currentMap -> 
-                valueRanges
-                |> Array.map (mapValueRange currentMap)
-                |> Array.concat
+        maps
+        |> Array.fold (fun valueRanges currentMap -> 
+            valueRanges
+            |> Array.map (mapValueRange currentMap)
+            |> Array.concat
             
-                ) seeds
-            |> Array.map fst
-            |> Array.min
-            |> string
-
-
-
-
-
-        hej
+            ) seeds
+        |> Array.map fst
+        |> Array.min
+        |> string
