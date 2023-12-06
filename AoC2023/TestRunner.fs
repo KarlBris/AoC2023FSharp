@@ -115,3 +115,14 @@ module TestRunner =
     let examples5_2 =  examples5_1
 
     let exampleResults5_2 = [| "46" |]
+
+    // Day6
+    let input6 = getInput 6
+
+    let examples6_1 = [| "Time:      7  15   30\nDistance:  9  40  200" |]
+
+    let exampleResults6_1 = [| "288" |]
+
+    let examples6_2 =  examples6_1
+
+    let exampleResults6_2 = [| "71503" |]
