@@ -126,3 +126,14 @@ module TestRunner =
     let examples6_2 =  examples6_1
 
     let exampleResults6_2 = [| "71503" |]
+
+    // Day7
+    let input7 = getInput 7
+
+    let examples7_1 = [| "32T3K 765\nT55J5 684\nKK677 28\nKTJJT 220\nQQQJA 483" |]
+
+    let exampleResults7_1 = [| "6440" |]
+
+    let examples7_2 = examples7_1
+
+    let exampleResults7_2 = [| "5905" |]
