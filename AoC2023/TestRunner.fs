@@ -137,3 +137,14 @@ module TestRunner =
     let examples7_2 = examples7_1
 
     let exampleResults7_2 = [| "5905" |]
+
+    // Day8
+    let input8 = getInput 8
+
+    let examples8_1 = [| "RL\n\nAAA = (BBB, CCC)\nBBB = (DDD, EEE)\nCCC = (ZZZ, GGG)\nDDD = (DDD, DDD)\nEEE = (EEE, EEE)\nGGG = (GGG, GGG)\nZZZ = (ZZZ, ZZZ)"; "LLR\n\nAAA = (BBB, BBB)\nBBB = (AAA, ZZZ)\nZZZ = (ZZZ, ZZZ)" |]
+
+    let exampleResults8_1 = [| "2"; "6" |]
+
+    let examples8_2 = [| |]//[| "LR\n\n11A = (11B, XXX)\n11B = (XXX, 11Z)\n11Z = (11B, XXX)\n22A = (22B, XXX)\n22B = (22C, 22C)\n22C = (22Z, 22Z)\n22Z = (22B, 22B)\nXXX = (XXX, XXX)" |]
+
+    let exampleResults8_2 = [| |] //[| "6" |]
