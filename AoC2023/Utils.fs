@@ -45,6 +45,12 @@ module Utils =
 
     let charToInt (c: char) : int = int c - int '0'
 
+    let divisors (n: int) : int array =
+        [| 1..n |]
+        |> Array.map (fun x -> (x, n % x))
+        |> Array.filter (fun (_, n) -> n = 0)
+        |> Array.map fst
+
     // From http://www.fssnip.net/4u/title/Very-Fast-Permutations
     let rec permutations =
         function
