@@ -145,6 +145,17 @@ module TestRunner =
 
     let exampleResults8_1 = [| "2"; "6" |]
 
-    let examples8_2 = [| |]//[| "LR\n\n11A = (11B, XXX)\n11B = (XXX, 11Z)\n11Z = (11B, XXX)\n22A = (22B, XXX)\n22B = (22C, 22C)\n22C = (22Z, 22Z)\n22Z = (22B, 22B)\nXXX = (XXX, XXX)" |]
+    let examples8_2 = [| "LR\n\n11A = (11B, XXX)\n11B = (XXX, 11Z)\n11Z = (11B, XXX)\n22A = (22B, XXX)\n22B = (22C, 22C)\n22C = (22Z, 22Z)\n22Z = (22B, 22B)\nXXX = (XXX, XXX)" |]
 
-    let exampleResults8_2 = [| |] //[| "6" |]
+    let exampleResults8_2 = [| "6" |]
+
+    // Day9
+    let input9 = getInput 9
+
+    let examples9_1 = [| "0 3 6 9 12 15\n1 3 6 10 15 21\n10 13 16 21 30 45" |]
+
+    let exampleResults9_1 = [| "114" |]
+
+    let examples9_2 = examples9_1
+
+    let exampleResults9_2 = [| "2" |] 
