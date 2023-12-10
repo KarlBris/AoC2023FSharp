@@ -159,3 +159,14 @@ module TestRunner =
     let examples9_2 = examples9_1
 
     let exampleResults9_2 = [| "2" |] 
+
+    // Day10
+    let input10 = getInput 10
+
+    let examples10_1 = [| ".....\n.S-7.\n.|.|.\n.L-J.\n....."; "..F7.\n.FJ|.\nSJ.L7\n|F--J\nLJ..." |]
+
+    let exampleResults10_1 = [| "4"; "8" |]
+
+    let examples10_2 = [| "...........\n.S-------7.\n.|F-----7|.\n.||.....||.\n.||.....||.\n.|L-7.F-J|.\n.|..|.|..|.\n.L--J.L--J.\n..........."; "..........\n.S------7.\n.|F----7|.\n.||OOOO||.\n.||OOOO||.\n.|L-7F-J|.\n.|II||II|.\n.L--JL--J.\n.........."; ".F----7F7F7F7F-7....\n.|F--7||||||||FJ....\n.||.FJ||||||||L7....\nFJL7L7LJLJ||LJ.L-7..\nL--J.L7...LJS7F-7L7.\n....F-J..F7FJ|L7L7L7\n....L7.F7||L7|.L7L7|\n.....|FJLJ|FJ|F7|.LJ\n....FJL-7.||.||||...\n....L---J.LJ.LJLJ..."; "FF7FSF7F7F7F7F7F---7\nL|LJ||||||||||||F--J\nFL-7LJLJ||||||LJL-77\nF--JF--7||LJLJ7F7FJ-\nL---JF-JLJ.||-FJLJJ7\n|F|F-JF---7F7-L7L|7|\n|FFJF7L7F-JF7|JL---7\n7-L-JL7||F7|L7F-7F7|\nL.L7LFJ|||||FJL7||LJ\nL7JLJL-JLJLJL--JLJ.L" |]
+
+    let exampleResults10_2 = [| "4"; "4"; "8"; "10" |]
