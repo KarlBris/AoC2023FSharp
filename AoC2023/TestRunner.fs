@@ -181,3 +181,14 @@ module TestRunner =
     let examples11_2 = [| |]
 
     let exampleResults11_2 = [| |]
+
+    // Day12
+    let input12 = getInput 12
+
+    let examples12_1 = [| "" |]
+
+    let exampleResults12_1 = [| "" |]
+
+    let examples12_2 = [| "" |]
+
+    let exampleResults12_2 = [ ""| |]
