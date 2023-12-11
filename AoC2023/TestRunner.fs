@@ -174,10 +174,10 @@ module TestRunner =
     // Day11
     let input11 = getInput 11
 
-    let examples11_1 = [| "" |]
+    let examples11_1 = [| "...#......\n.......#..\n#.........\n..........\n......#...\n.#........\n.........#\n..........\n.......#..\n#...#....." |]
 
-    let exampleResults11_1 = [| "" |]
+    let exampleResults11_1 = [| "374" |]
 
-    let examples11_2 = [| "" |]
+    let examples11_2 = [| |]
 
-    let exampleResults11_2 = [| "" |]
+    let exampleResults11_2 = [| |]

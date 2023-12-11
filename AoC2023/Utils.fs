@@ -8,6 +8,8 @@ module Utils =
 
     let addPos ((ax, ay): Position) ((bx, by): Position) : Position = (ax + bx, ay + by)
 
+    let manhattanDistance ((a, b): Position) ((x, y): Position) : int = (abs (a - x)) + (abs (b - y))
+
     let lines (input: string) : string [] =
         input.Split([| "\r\n"; "\n"; "\r" |], StringSplitOptions.RemoveEmptyEntries)
 
