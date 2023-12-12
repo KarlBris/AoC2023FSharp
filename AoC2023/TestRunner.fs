@@ -185,10 +185,10 @@ module TestRunner =
     // Day12
     let input12 = getInput 12
 
-    let examples12_1 = [| "" |]
+    let examples12_1 = [|"???.### 1,1,3";".??..??...?##. 1,1,3";"?#?#?#?#?#?#?#? 1,3,1,6";"????.#...#... 4,1,1";"????.######..#####. 1,6,5";"?###???????? 3,2,1"|]
 
-    let exampleResults12_1 = [| "" |]
+    let exampleResults12_1 = [| "1";"4";"1";"1";"4";"10"; |]
 
-    let examples12_2 = [| "" |]
+    let examples12_2 = examples12_1
 
-    let exampleResults12_2 = [ ""| |]
+    let exampleResults12_2 = [| "1";"16384";"1";"16";"2500";"506250"; |]

@@ -37,6 +37,9 @@ module Utils =
     let slashes (input: string) : string [] =
         input.Split([| "/ "; "/" |], StringSplitOptions.RemoveEmptyEntries)
 
+    let split (splitString: string) (input: string) : string []=
+        input.Split([| splitString |], StringSplitOptions.RemoveEmptyEntries)
+        
     let isAllUppercase (input: string) : bool =
         input |> Seq.forall (fun c -> Char.IsUpper c)
 
