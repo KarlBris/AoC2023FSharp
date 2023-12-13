@@ -192,3 +192,14 @@ module TestRunner =
     let examples12_2 = examples12_1
 
     let exampleResults12_2 = [| "1";"16384";"1";"16";"2500";"506250"; |]
+
+    // Day13
+    let input13 = getInput 13
+
+    let examples13_1 = [|"#.##..##.\n..#.##.#.\n##......#\n##......#\n..#.##.#.\n..##..##.\n#.#.##.#.\n\n#...##..#\n#....#..#\n..##..###\n#####.##.\n#####.##.\n..##..###\n#....#..#"|]
+
+    let exampleResults13_1 = [|"405"|]
+
+    let examples13_2 = examples13_1
+
+    let exampleResults13_2 = [|"400"|]
