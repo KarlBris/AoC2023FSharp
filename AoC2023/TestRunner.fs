@@ -203,3 +203,14 @@ module TestRunner =
     let examples13_2 = examples13_1
 
     let exampleResults13_2 = [|"400"|]
+
+    // Day14
+    let input14 = getInput 14
+
+    let examples14_1 = [|"O....#....\nO.OO#....#\n.....##...\nOO.#O....O\n.O.....O#.\nO.#..O.#.#\n..O..#O..O\n.......O..\n#....###..\n#OO..#...."|]
+
+    let exampleResults14_1 = [|"136"|]
+
+    let examples14_2 = examples14_1
+
+    let exampleResults14_2 = [|"64"|]
