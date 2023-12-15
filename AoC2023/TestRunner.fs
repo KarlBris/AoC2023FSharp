@@ -214,3 +214,14 @@ module TestRunner =
     let examples14_2 = examples14_1
 
     let exampleResults14_2 = [|"64"|]
+
+    // Day15
+    let input15 = getInput 15
+
+    let examples15_1 = [|"rn=1,cm-,qp=3,cm=2,qp-,pc=4,ot=9,ab=5,pc-,pc=6,ot=7"|]
+
+    let exampleResults15_1 = [|"1320"|]
+
+    let examples15_2 = examples15_1
+
+    let exampleResults15_2 = [|"145"|]

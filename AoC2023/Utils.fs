@@ -24,21 +24,27 @@ module Utils =
 
     let commas (input: string) : string [] =
         input.Split([| ", "; "," |], StringSplitOptions.RemoveEmptyEntries)
+        |> Array.map stringTrim
 
     let semicolons (input: string) : string [] =
         input.Split([| "; "; ";" |], StringSplitOptions.RemoveEmptyEntries)
-
+        
+        |> Array.map stringTrim
     let colons (input: string) : string [] =
         input.Split([| ": "; ":" |], StringSplitOptions.RemoveEmptyEntries)
+        |> Array.map stringTrim
 
     let hyphens (input: string) : string [] =
         input.Split([| "- "; "-" |], StringSplitOptions.RemoveEmptyEntries)
+        |> Array.map stringTrim
 
     let slashes (input: string) : string [] =
         input.Split([| "/ "; "/" |], StringSplitOptions.RemoveEmptyEntries)
+        |> Array.map stringTrim
 
     let split (splitString: string) (input: string) : string []=
         input.Split([| splitString |], StringSplitOptions.RemoveEmptyEntries)
+        |> Array.map stringTrim
         
     let isAllUppercase (input: string) : bool =
         input |> Seq.forall (fun c -> Char.IsUpper c)
