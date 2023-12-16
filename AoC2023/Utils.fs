@@ -4,11 +4,23 @@ open System
 
 module Utils =
 
+    type Direction = N|S|W|E
+
     type Position = (int * int)
 
     let addPos ((ax, ay): Position) ((bx, by): Position) : Position = (ax + bx, ay + by)
 
     let manhattanDistance ((a, b): Position) ((x, y): Position) : int = (abs (a - x)) + (abs (b - y))
+
+    let isValidPosition ((maxX, maxY): Position) (pos as (x, y): Position) : bool =
+        x >= 0 && y >= 0 && x <= maxX && y <= maxY
+
+    let oneStep (dir: Direction) ((x,y): Position) : Position = 
+        match dir with
+        | N -> (x,y-1)
+        | E -> (x+1,y)
+        | S -> (x,y+1)
+        | W -> (x-1,y)
 
     let lines (input: string) : string [] =
         input.Split([| "\r\n"; "\n"; "\r" |], StringSplitOptions.RemoveEmptyEntries)
