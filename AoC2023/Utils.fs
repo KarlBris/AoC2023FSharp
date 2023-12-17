@@ -15,12 +15,29 @@ module Utils =
     let isValidPosition ((maxX, maxY): Position) (pos as (x, y): Position) : bool =
         x >= 0 && y >= 0 && x <= maxX && y <= maxY
 
+    let directionReverse (dir:Direction) : Direction = 
+        match dir with
+        | N -> S
+        | E -> W
+        | S -> N
+        | W -> E
+
     let oneStep (dir: Direction) ((x,y): Position) : Position = 
         match dir with
         | N -> (x,y-1)
         | E -> (x+1,y)
         | S -> (x,y+1)
         | W -> (x-1,y)
+
+    let whichDirection (fromPos as (fX,fY): Position) (toPos as (tX,tY): Position) : Direction =
+        if fX < tX && fY = tY then E
+        elif fX > tX && fY = tY then W
+        elif fX = tX && fY < tY then S
+        elif fX = tX && fY > tY then N
+        else failwith "nope"
+
+    let manhattanNeighborPositions: (Position * Direction) array =
+        [|((0,1), S);((0,-1), N);((1,0), E);((-1,0), W)|]
 
     let lines (input: string) : string [] =
         input.Split([| "\r\n"; "\n"; "\r" |], StringSplitOptions.RemoveEmptyEntries)
