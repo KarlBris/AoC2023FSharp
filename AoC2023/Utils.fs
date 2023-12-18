@@ -4,7 +4,11 @@ open System
 
 module Utils =
 
-    type Direction = N|S|W|E
+    type Direction =
+        | N
+        | S
+        | W
+        | E
 
     type Position = (int * int)
 
@@ -14,9 +18,9 @@ module Utils =
 
     let makeLineBetween ((aX, aY): Position) ((bX, bY): Position) : Position list =
         if aX = bX then
-            [for y in (min aY bY)..(max aY bY) -> (aX,y)]
+            [ for y in (min aY bY) .. (max aY bY) -> (aX, y) ]
         elif aY = bY then
-            [for x in (min aX bX)..(max aX bX) -> (x,aY)]
+            [ for x in (min aX bX) .. (max aX bX) -> (x, aY) ]
         else
             failwith "not in line"
 
@@ -35,27 +39,35 @@ module Utils =
         | 'E' -> E
         | _ -> failwith ""
 
-    let directionReverse (dir:Direction) : Direction = 
+    let directionReverse (dir: Direction) : Direction =
         match dir with
         | N -> S
         | E -> W
         | S -> N
         | W -> E
 
-    let oneStep (dir: Direction) ((x,y): Position) : Position = 
+    let oneStep (dir: Direction) ((x, y): Position) : Position =
         match dir with
-        | N -> (x,y-1)
-        | E -> (x+1,y)
-        | S -> (x,y+1)
-        | W -> (x-1,y)
+        | N -> (x, y - 1)
+        | E -> (x + 1, y)
+        | S -> (x, y + 1)
+        | W -> (x - 1, y)
 
-    let rec stepsInDirection (steps: int) (dir: Direction) (pos: Position) : Position list=
+    let nSteps (dir: Direction) (steps: int) ((x, y): Position) : Position =
+        match dir with
+        | N -> (x, y - steps)
+        | E -> (x + steps, y)
+        | S -> (x, y + steps)
+        | W -> (x - steps, y)
+
+    let rec stepsInDirection (steps: int) (dir: Direction) (pos: Position) : Position list =
         if steps = 0 then
-            [pos]
+            [ pos ]
         else
-            pos::(stepsInDirection (steps-1) dir (oneStep dir pos))
+            pos
+            :: (stepsInDirection (steps - 1) dir (oneStep dir pos))
 
-    let whichDirection (fromPos as (fX,fY): Position) (toPos as (tX,tY): Position) : Direction =
+    let whichDirection (fromPos as (fX, fY): Position) (toPos as (tX, tY): Position) : Direction =
         if fX < tX && fY = tY then E
         elif fX > tX && fY = tY then W
         elif fX = tX && fY < tY then S
@@ -63,7 +75,10 @@ module Utils =
         else failwith "nope"
 
     let manhattanNeighborPositions: (Position * Direction) array =
-        [|((0,1), S);((0,-1), N);((1,0), E);((-1,0), W)|]
+        [| ((0, 1), S)
+           ((0, -1), N)
+           ((1, 0), E)
+           ((-1, 0), W) |]
 
     let lines (input: string) : string [] =
         input.Split([| "\r\n"; "\n"; "\r" |], StringSplitOptions.RemoveEmptyEntries)
@@ -83,8 +98,8 @@ module Utils =
 
     let semicolons (input: string) : string [] =
         input.Split([| "; "; ";" |], StringSplitOptions.RemoveEmptyEntries)
-        
         |> Array.map stringTrim
+
     let colons (input: string) : string [] =
         input.Split([| ": "; ":" |], StringSplitOptions.RemoveEmptyEntries)
         |> Array.map stringTrim
@@ -97,10 +112,10 @@ module Utils =
         input.Split([| "/ "; "/" |], StringSplitOptions.RemoveEmptyEntries)
         |> Array.map stringTrim
 
-    let split (splitString: string) (input: string) : string []=
+    let split (splitString: string) (input: string) : string [] =
         input.Split([| splitString |], StringSplitOptions.RemoveEmptyEntries)
         |> Array.map stringTrim
-        
+
     let isAllUppercase (input: string) : bool =
         input |> Seq.forall (fun c -> Char.IsUpper c)
 

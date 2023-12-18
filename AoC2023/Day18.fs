@@ -5,64 +5,81 @@ open System
 
 module Day18 =
 
-    let parseInputStep (input: string) : (Direction * int * string) =
+    let parseInputStep (input: string) : (Direction * int) =
         input
         |> words
-        |> (fun [| d; n; s |] -> (directionOfChar (Seq.head d), int n, s))
+        |> (fun [| d; n; _ |] -> (directionOfChar (Seq.head d), int n))
 
-    let rec digTrench
-        (pos: Position)
-        (acc: Map<Position, string>)
-        (instructions: (Direction * int * string) list)
-        : Map<Position, string> =
+    let parseInputStepHex (input: string) : (Direction * int) =
+        let (hexString, dirChar) =
+            input
+            |> words
+            |> Array.last
+            |> Array.ofSeq
+            |> (fun a -> (a[2..6], a[7]))
+
+        let dir =
+            match dirChar with
+            | '0' -> E
+            | '1' -> S
+            | '2' -> W
+            | '3' -> N
+            | _ -> failwith ""
+
+        let hexInt = Int32.Parse(hexString, System.Globalization.NumberStyles.HexNumber)
+
+        (dir, hexInt)
+
+    let rec makePositions
+        (fromPos: Position)
+        (acc: Position list)
+        (instructions: (Direction * int) list)
+        : Position list =
         match instructions with
         | [] -> acc
-        | (dir, n, str) :: is ->
+        | (dir, steps) :: is ->
+            let endPos = nSteps dir steps fromPos
+            makePositions endPos (fromPos :: acc) is
 
-            let steps = pos |> stepsInDirection n dir |> List.tail
+    let shoelace (positions: Position array) : int64 =
+        let size = positions.Length
+        let getYi (i: int) : int64 = positions[i] |> snd |> int64
+        let getXi (i: int) : int64 = positions[i] |> fst |> int64
 
-            let newAcc =
-                steps
-                |> List.fold (fun a p -> a |> Map.add p str) acc
+        let getYiPlusOne (i: int) : int64 =
+            positions[eMod (i + 1) size] |> snd |> int64
 
-            let lastStep = List.last steps
+        let getXiPlusOne (i: int) : int64 =
+            positions[eMod (i + 1) size] |> fst |> int64
 
-            digTrench lastStep newAcc is
+        let doubleRes =
+            [ 0 .. (size - 1) ]
+            |> List.map (fun i ->
+                ((getYi i) + (getYiPlusOne i))
+                * ((getXi i) - (getXiPlusOne i)))
+            |> List.sum
 
-    let rec floodFill (poss: Position Set) (acc: Position Set) (cleanMap: Map<Position, string>) : Position Set =
-        let newPositions =
-            poss
-            |> Set.map (fun pos ->
-                manhattanNeighborPositions
-                |> Array.map fst
-                |> Set.ofArray
-                |> Set.map (fun dPos -> addPos pos dPos))
-            |> Set.unionMany
-            |> Set.filter (fun pos ->
-                not (Set.contains pos acc)
-                && not (Map.containsKey pos cleanMap))
+        doubleRes / 2L
 
-        if Set.isEmpty newPositions then
-            acc
-        else
-            floodFill newPositions (Set.union newPositions acc) cleanMap
-
-    let part1 (input: string) : string =
-        let hej =
+    let doStuff (parseFun: string -> Direction * int) (input: string) : string =
+        let stepList =
             input
             |> lines
-            |> Array.map parseInputStep
+            |> Array.map parseFun
             |> List.ofArray
 
-        let trench = digTrench (0, 0) Map.empty hej
+        let positions =
+            stepList
+            |> makePositions (0, 0) []
+            |> Array.ofList
+            |> Array.rev
 
-        let floodedAcc = floodFill (Set.singleton (1, 1)) Set.empty trench
+        let stepSum = stepList |> List.map (snd >> int64) |> List.sum
 
+        let area = shoelace positions
 
-        string (trench.Count + floodedAcc.Count)
+        (area + (stepSum / 2L) + 1L) |> string
 
-    let part2 (input: string) : string =
+    let part1 (input: string) : string = doStuff parseInputStep input
 
-        // TODO: flood fill is not feasible. Change to some sort of line scanning method? 
-        // TOOD: Acually making all the trenches is also too costly. Figure something out there
-        input
+    let part2 (input: string) : string = doStuff parseInputStepHex input
