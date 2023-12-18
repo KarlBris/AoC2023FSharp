@@ -12,8 +12,28 @@ module Utils =
 
     let manhattanDistance ((a, b): Position) ((x, y): Position) : int = (abs (a - x)) + (abs (b - y))
 
+    let makeLineBetween ((aX, aY): Position) ((bX, bY): Position) : Position list =
+        if aX = bX then
+            [for y in (min aY bY)..(max aY bY) -> (aX,y)]
+        elif aY = bY then
+            [for x in (min aX bX)..(max aX bX) -> (x,aY)]
+        else
+            failwith "not in line"
+
     let isValidPosition ((maxX, maxY): Position) (pos as (x, y): Position) : bool =
         x >= 0 && y >= 0 && x <= maxX && y <= maxY
+
+    let directionOfChar (c: char) : Direction =
+        match c with
+        | 'U'
+        | 'N' -> N
+        | 'D'
+        | 'S' -> S
+        | 'L'
+        | 'W' -> W
+        | 'R'
+        | 'E' -> E
+        | _ -> failwith ""
 
     let directionReverse (dir:Direction) : Direction = 
         match dir with
@@ -28,6 +48,12 @@ module Utils =
         | E -> (x+1,y)
         | S -> (x,y+1)
         | W -> (x-1,y)
+
+    let rec stepsInDirection (steps: int) (dir: Direction) (pos: Position) : Position list=
+        if steps = 0 then
+            [pos]
+        else
+            pos::(stepsInDirection (steps-1) dir (oneStep dir pos))
 
     let whichDirection (fromPos as (fX,fY): Position) (toPos as (tX,tY): Position) : Direction =
         if fX < tX && fY = tY then E
