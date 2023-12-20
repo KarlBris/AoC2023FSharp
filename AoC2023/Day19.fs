@@ -106,7 +106,7 @@ module Day19 =
             rules
             |> List.fold (fun vs (o,lbl) -> 
                 let (pXs, pMs, pAs, pSs) = vs
-                if lbl = "A" then
+                if lbl = label then
                     // we want to satisfy the condition
                     match o with
                     | None -> vs
@@ -137,8 +137,74 @@ module Day19 =
         workflowsLeadingHere
         |> Array.fold (fun vs wf -> eliminateValues workflows vs wf) newVals
 
+    let rec retracePath (wFlows: Workflow list) (label: string) : string list list =
+        if label = "in" then
+            [["in"]]
+        else
+            let matchingWorkflows =
+                wFlows
+                |> List.filter (fun (_,(rules)) -> 
+                    rules |> List.exists (fun (o,l) -> l = label))
+                |> List.map (fun (l,_) -> l)
+
+            matchingWorkflows
+            |> List.map (fun nl -> nl |> retracePath wFlows |> List.map (fun ps -> label::ps))
+            |> List.concat
+
+    let satisfyCondition (satisfy: bool) (condition: (char*char*int) option) (vals: (int list * int list * int list * int list)) : (int list * int list * int list * int list) =
+        match condition with
+        | None -> vals
+        | Some (category, comparison, value) ->
+            let negateIfNeedBe = if satisfy then id else not
+            let (pXs, pMs, pAs, pSs) = vals
+            let compFunc = if comparison = '<' then (<) else (>)
+            match category with
+            | 'x' -> (pXs |> List.filter (fun v -> compFunc v value |> negateIfNeedBe), pMs, pAs, pSs)
+            | 'm' -> (pXs, pMs |> List.filter (fun v -> compFunc v value |> negateIfNeedBe), pAs, pSs)
+            | 'a' -> (pXs, pMs, pAs |> List.filter (fun v -> compFunc v value |> negateIfNeedBe), pSs)
+            | 's' -> (pXs, pMs, pAs, pSs |> List.filter (fun v -> compFunc v value |> negateIfNeedBe))
+
+
+    let rec pruneValuesToLabel (rules : (((char * char * int) option) * string) list) (label: string) (vals: (int list * int list * int list * int list)) : (int list * int list * int list * int list) =
+        if rules |> List.filter (fun (_,l) -> l = label) |> List.length = 0 then
+            vals
+        else
+            let ((o,l)::rs) = rules
+            
+            let vals' = satisfyCondition (l = label) o vals
+
+            pruneValuesToLabel rs label vals'
+
+    let visualizeVals (vals: (int list * int list * int list * int list)) : unit =
+            let (pXs, pMs, pAs, pSs) = vals
+            printfn $"x={List.min pXs}..{List.max pXs}, m={List.min pMs}..{List.max pMs}, a={List.min pAs}..{List.max pAs}, s={List.min pSs}..{List.max pSs}"
+
+    let rec pathToString (path: string list) : string =
+        match path with
+        | s1::s2::ss -> $"{s1} -> " + (pathToString (s2::ss))
+        | s::[] -> s
+        | _ -> ""
+
+    let visualizePathsAndVals (path: string list, vals: (int list * int list * int list * int list)) : unit =
+            let (pXs, pMs, pAs, pSs) = vals
+            printfn $"{path |> pathToString}: x={List.min pXs}..{List.max pXs}, m={List.min pMs}..{List.max pMs}, a={List.min pAs}..{List.max pAs}, s={List.min pSs}..{List.max pSs}"
+
+    let rec followPath (wFlows: Workflow array) (vals: (int list * int list * int list * int list)) (path: string list): (int list * int list * int list * int list) =
+        match path with
+        | l1::l2::ls -> 
+            let matchingWorkflow = wFlows |> Array.find (fun (label,_) -> label = l1) |> snd
+
+            let vals' = pruneValuesToLabel matchingWorkflow l2 vals
+            //visualizeVals vals'
+            followPath wFlows vals' (l2::ls)
+        | _ -> vals
+
+    let valuesScore ((a,b,c,d): (int list * int list * int list * int list)) : int64 =
+        (a |> List.length |> int64) * (b |> List.length |> int64) * (c |> List.length |> int64) * (d |> List.length |> int64)
+        
+
     let part2 (input: string) : string =
-        let (workflowInputs, partInputs) = input |> splitAtDoubleLines |> twoArrayToTuple
+        let (workflowInputs, _) = input |> splitAtDoubleLines |> twoArrayToTuple
 
         let parsedWorkflows = workflowInputs |> lines |> Array.map parseWorkflow
 
@@ -147,8 +213,37 @@ module Day19 =
         // until all applicable workflows have been checked Now multiply the xmas values
 
         // TODO: kanske snarare identifiera alla unika vägar från "in" till "A", och för varje väg, 
-        // kolla alla möjliga värden för xmas, sedan göra union? intersection? mellan alla resultat
+        // kolla alla möjliga värden för xmas, sedan göra union? mellan alla resultat
         // och multiplicera
+
+        let acceptingRules =
+            parsedWorkflows
+            |> Array.map (fun (lbl, flows) ->
+                flows
+                |> List.map (fun (o,l) -> 
+                    if l = "A" then
+                        Some lbl
+                    else
+                        None)
+                |> List.choose id)
+            |> List.concat
+            |> List.distinct
+
+
+        let acceptingPaths = 
+            acceptingRules
+            |> List.map (retracePath (List.ofArray parsedWorkflows))
+            |> List.concat
+            |> List.map ((fun l -> "A"::l) >> List.rev)
+
+        let acceptedValues = 
+            acceptingPaths
+            |> List.map (fun p -> (p, (followPath parsedWorkflows ([ 1..4000 ], [ 1..4000 ], [ 1..4000 ], [ 1..4000 ]) p)))
+
+        acceptedValues |> List.iter visualizePathsAndVals
+
+        let scoreSum = acceptedValues |> List.map (snd >> valuesScore) |> List.sum
+
 
         let acceptingWorkflows =
             parsedWorkflows
@@ -160,5 +255,5 @@ module Day19 =
                 (fun vals flow -> eliminateValues parsedWorkflows vals flow)
                 ([ 1..4000 ], [ 1..4000 ], [ 1..4000 ], [ 1..4000 ])
 
-        input |> ignore
-        input
+        scoreSum |> string
+        //"167409079868000"
