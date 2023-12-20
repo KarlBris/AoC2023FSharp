@@ -269,3 +269,14 @@ module TestRunner =
     let examples19_2 = examples19_1
 
     let exampleResults19_2 = [|"167409079868000"|]
+
+    // Day20
+    let input20 = getInput 20
+
+    let examples20_1 = [|"broadcaster -> a, b, c\n%a -> b\n%b -> c\n%c -> inv\n&inv -> a";"broadcaster -> a\n%a -> inv, con\n&inv -> b\n%b -> con\n&con -> output"|]
+
+    let exampleResults20_1 = [|"32000000";"11687500"|]
+
+    let examples20_2 = [||]
+
+    let exampleResults20_2 = [||]
