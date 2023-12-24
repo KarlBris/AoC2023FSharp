@@ -302,3 +302,14 @@ module TestRunner =
     let examples23_2 = examples23_1
 
     let exampleResults23_2 = [|"154"|]
+
+    // Day24
+    let input24 = getInput 24
+
+    let examples24_1 = [|"19, 13, 30 @ -2,  1, -2\n18, 19, 22 @ -1, -1, -2\n20, 25, 34 @ -2, -2, -4\n12, 31, 28 @ -1, -2, -1\n20, 19, 15 @  1, -5, -3"|]
+
+    let exampleResults24_1 = [|"2"|]
+
+    let examples24_2 = [|""|]
+
+    let exampleResults24_2 = [|""|]
